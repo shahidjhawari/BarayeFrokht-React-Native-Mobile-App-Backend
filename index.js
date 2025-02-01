@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const profileRoutes = require('./routes/profile');
 
 dotenv.config();
 const app = express();
@@ -20,6 +21,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/profile', profileRoutes); // Mount profile routes
 
 app.get("/", (req, res) => {
   res.send("Hello World");
