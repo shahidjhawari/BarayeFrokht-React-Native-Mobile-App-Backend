@@ -15,4 +15,24 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
+// Update user profile by ID
+router.put('/:userId', async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      { username, email },
+      { new: true } // Return the updated user
+    ).select('-password');
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
